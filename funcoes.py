@@ -25,7 +25,7 @@ def criar_callback_tensorboard(diretorio, experimento):
 
 def criar_modelo(modelo_url, quantidade_classes,
                  formato_entrada=(224, 224),
-                 ativacao='softmax'
+                 ativacao='softmax',
                  treinavel=False):
     """
     Cria um modelo sequencial Keras.
