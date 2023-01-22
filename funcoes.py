@@ -1,3 +1,14 @@
+import tensorflow as tf
+import tensorflow_hub as hub
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import datetime
+
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense
+
 # Função para criar callback TensorBoard
 def criar_callback_tensorboard(diretorio, experimento):
     # Diretório do TensorBoard
@@ -10,13 +21,19 @@ def criar_callback_tensorboard(diretorio, experimento):
 
     return cb_tensorboard
 
-def criar_modelo(modelo_url, quantidade_classes, treinavel=False):
+def criar_modelo(modelo_url, quantidade_classes,
+                 formato_entrada=(224, 224),
+                 ativacao='softmax'
+                 treinavel=False):
     """
     Cria um modelo sequencial Keras.
 
     Args:
-        modelo_url (str): URL do modelo no TensorFlow Hub
+        modelo_url (str): URL do modelo no TensorFlow Hub.
         quantidade_classes (int): Quantidade de neurônios na camada de saída (classes).
+        formato_entrada (int, int): Formato da imagem.
+        ativacao (str): Função de ativação da camada de saída.
+        treinavel (bool): Informação se o modelo será treinável.
     
     Returns:
         Um modelo sequencial Keras não-compilado, criado com os argumentos informados.
@@ -26,9 +43,9 @@ def criar_modelo(modelo_url, quantidade_classes, treinavel=False):
 
     modelo.add(hub.KerasLayer(handle=modelo_url,
                               trainable=treinavel,
-                              input_shape=INPUT_SHAPE))
+                              input_shape=formato_entrada))
 
-    modelo.add(Dense(quantidade_classes, activation=ACTIVATION))
+    modelo.add(Dense(quantidade_classes, activation=ativacao))
 
     return modelo
 
@@ -90,3 +107,4 @@ def pred_and_plot(model, filename, class_names):
     plt.title(f"Prediction: {pred_class} ({(pred_perc * 100):0.2f}%)")
     plt.axis(False)
     plt.show()
+
