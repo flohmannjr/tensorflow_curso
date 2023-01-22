@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 import datetime
+import zipfile
+import os
 
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense
@@ -107,4 +109,31 @@ def pred_and_plot(model, filename, class_names):
     plt.title(f"Prediction: {pred_class} ({(pred_perc * 100):0.2f}%)")
     plt.axis(False)
     plt.show()
+
+def unzip_data(filename):
+  """
+  Unzips filename into the current working directory.
+
+  Args:
+    filename (str): a filepath to a target zip folder to be unzipped.
+  """
+  zip_ref = zipfile.ZipFile(filename, "r")
+  zip_ref.extractall()
+  zip_ref.close()
+
+def walk_through_dir(dir_path):
+  """
+  Walks through dir_path returning its contents.
+
+  Args:
+    dir_path (str): target directory
+  
+  Returns:
+    A print out of:
+      number of subdiretories in dir_path
+      number of images (files) in each subdirectory
+      name of each subdirectory
+  """
+  for dirpath, dirnames, filenames in os.walk(dir_path):
+    print(f"There are {len(dirnames)} directories and {len(filenames)} images in '{dirpath}'.")
 
