@@ -53,7 +53,7 @@ def criar_modelo(modelo_url, quantidade_classes,
 
 def grafico_perda_precisao_por_iteracao(historico):
 
-    for chave in historico.keys():
+    for chave in historico.history.keys():
         sns.lineplot(data=historico.history[chave], label=chave)
 
     plt.title('Histórico por iteração')
