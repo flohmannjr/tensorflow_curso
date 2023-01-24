@@ -63,6 +63,32 @@ def grafico_historico_por_iteracao(historico):
     plt.legend(frameon=True, facecolor='white')
     plt.show()
 
+def grafico_historicos_complementares(original, complementar):
+    """
+    Cria e apresenta um gráfico de linhas (Seaborn) contendo a evolução dos dados contidos nos históricos.
+    Os históricos devem ser complementares. (Ter a mesma estrutura.)
+
+    Args:
+        original (obj History): Histórico com iterações originais.
+        complementar (obj History): Histórico com iterações complementares.
+    """
+
+    if original.history.keys() != complementar.history.keys():
+        print('Os históricos não são complementares.')
+        return
+
+    for chave in original.history.keys():
+        sns.lineplot(data=(original.history[chave] + complementar.history[chave]), label=chave)
+    
+    plt.axvline(x=original.epoch[-1], color='black')
+
+    plt.title('Históricos complementares por iteração')
+    plt.xlabel('Iteração')
+    plt.ylabel('')
+
+    plt.legend(frameon=True, facecolor='white')
+    plt.show()
+
 # Create a function to import and image and resize it to be able to be used with our model
 def load_and_prep_image(filename, img_shape=224):
     """
