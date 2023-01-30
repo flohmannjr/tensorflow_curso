@@ -11,6 +11,8 @@ import os
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense
 
+from sklearn.metrics import classification_report, ConfusionMatrixDisplay
+
 # Função para criar callback TensorBoard
 def criar_callback_tensorboard(diretorio, experimento):
     # Diretório do TensorBoard
@@ -165,3 +167,15 @@ def walk_through_dir(dir_path):
   for dirpath, dirnames, filenames in os.walk(dir_path):
     print(f"There are {len(dirnames)} directories and {len(filenames)} images in '{dirpath}'.")
 
+def avaliar_modelo(validacao, previsao):
+    print(classification_report(validacao, previsao))
+
+    ConfusionMatrixDisplay.from_predictions(validacao, previsao, cmap='summer_r')
+    plt.grid(False)
+
+    relatorio = classification_report(validacao, previsao, output_dict=True)
+
+    return {'acuracia': relatorio['accuracy'],
+            'precisao': relatorio['weighted avg']['precision'],
+            'revocacao': relatorio['weighted avg']['recall'],
+            'pontuacao-f1': relatorio['weighted avg']['f1-score']}
