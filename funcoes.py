@@ -167,13 +167,13 @@ def walk_through_dir(dir_path):
   for dirpath, dirnames, filenames in os.walk(dir_path):
     print(f"There are {len(dirnames)} directories and {len(filenames)} images in '{dirpath}'.")
 
-def avaliar_modelo(validacao, previsao):
-    print(classification_report(validacao, previsao))
+def avaliar_modelo(validacao, previsao, rotulos=None, cmap='summer_r'):
+    print(classification_report(validacao, previsao, target_names=rotulos))
 
-    ConfusionMatrixDisplay.from_predictions(validacao, previsao, cmap='summer_r')
+    ConfusionMatrixDisplay.from_predictions(validacao, previsao, display_labels=rotulos, xticks_rotation='vertical', cmap=cmap)
     plt.grid(False)
 
-    relatorio = classification_report(validacao, previsao, output_dict=True)
+    relatorio = classification_report(validacao, previsao, target_names=rotulos, output_dict=True)
 
     return {'acuracia': relatorio['accuracy'],
             'precisao': relatorio['weighted avg']['precision'],
