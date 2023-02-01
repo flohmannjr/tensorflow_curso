@@ -4,9 +4,7 @@ import tensorflow_hub as hub
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import datetime
-import zipfile
-import os
+import datetime, os, re, zipfile
 
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense
