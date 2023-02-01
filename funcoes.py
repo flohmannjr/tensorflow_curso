@@ -179,3 +179,40 @@ def avaliar_modelo(validacao, previsao, rotulos=None, cmap='summer_r'):
             'precisao': relatorio['weighted avg']['precision'],
             'revocacao': relatorio['weighted avg']['recall'],
             'pontuacao-f1': relatorio['weighted avg']['f1-score']}
+
+def preprocessar_texto(arquivo):
+    """
+    Retorna uma lista de dicionários com o conteúdo das linhas do arquivo informado.
+
+    Cada dicionário contém o código do resumo, o total de linhas, o número, a classe e o texto da linha.
+    {codigo, total, numero, classe, texto}
+    """
+
+    with open(arquivo, 'r') as a: linhas_arquivo = a.readlines()
+    linhas = ''  # Linhas do texto
+    saida = []   # Lista de dicionários
+
+    for linha in linhas_arquivo:
+        if linha.startswith('###'):            # Verifica se a linha inicia com '###'.
+            codigo = re.sub('\D+', '', linha)  # Extrai o código do resumo.
+            linhas = ''                        # Limpa as linhas de texto.
+        
+        elif linha.isspace():                       # Verifica se a linha é vazia.
+            linhas_separadas = linhas.splitlines()  # Separa linhas de texto.
+
+            for linha_numero, linha_completa in enumerate(linhas_separadas):  # Itera sobre cada uma das linhas de texto.
+                linha_dados = {}                                              # Dicionário com os dados da linha.
+                linha_conteudo = linha_completa.split('\t')                   # Separa classe e texto.
+
+                linha_dados['codigo'] = codigo                    # Código do resumo.
+                linha_dados['total'] = len(linhas_separadas)      # Total de linhas.
+                linha_dados['numero'] = linha_numero              # Número da linha.
+                linha_dados['classe'] = linha_conteudo[0]         # Classe da linha.
+                linha_dados['texto'] = linha_conteudo[1].lower()  # Texto da linha, em caixa baixa.
+
+                saida.append(linha_dados)  # Acrescenta o dicionário à lista.
+
+        else:
+            linhas += linha  # Acrescenta a linha atual às linhas de texto.
+
+    return saida
