@@ -1,5 +1,3 @@
-import tensorflow as tf
-
 import numpy as np
 import pandas as pd
 
@@ -8,7 +6,7 @@ import seaborn as sns
 
 import os
 
-from tensorflow.keras.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 
 COR_TREINO   = '#663399'
 COR_PREVISAO = '#f22424'
@@ -55,17 +53,17 @@ def grafico_metrica(metrica, titulo=None):
 def mean_absolute_scaled_error(y_teste, y_previsao):
 
     # Mean absolute error
-    mae = tf.reduce_mean(tf.abs(tf.subtract(y_teste, y_previsao)))
+    mae = np.mean(np.absolute(np.subtract(y_teste, y_previsao)))
 
     # Mean absolute error de previsão ingênua (Sem período.)
-    mae_ingenuo = tf.reduce_mean(tf.abs(tf.subtract(y_teste[1:], y_teste[:-1])))
+    mae_ingenuo = np.mean(np.absolute(np.subtract(y_teste[1:], y_teste[:-1])))
 
-    return tf.divide(mae, mae_ingenuo)
+    return np.divide(mae, mae_ingenuo)
 
 def metricas_modelo(y_teste, y_previsao):
 
     mae = mean_absolute_error(y_teste, y_previsao)
-    rmse = tf.sqrt(mean_squared_error(y_teste, y_previsao))
+    rmse = np.sqrt(mean_squared_error(y_teste, y_previsao))
     mape = mean_absolute_percentage_error(y_teste, y_previsao)
     mase = mean_absolute_scaled_error(y_teste, y_previsao)
 
