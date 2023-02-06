@@ -1,3 +1,19 @@
+import tensorflow as tf
+
+import numpy as np
+import pandas as pd
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import os
+
+COR_TREINO   = '#663399'
+COR_PREVISAO = '#f22424'
+COR_TESTE    = '#345cd3'
+
+LINHA_ESPESSURA = 1
+
 def grafico_series(X_treino=[], y_treino=[],
                    X_teste=[], y_teste=[],
                    X_previsao=[], y_previsao=[],
