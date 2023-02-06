@@ -8,6 +8,8 @@ import seaborn as sns
 
 import os
 
+from tensorflow.keras.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
+
 COR_TREINO   = '#663399'
 COR_PREVISAO = '#f22424'
 COR_TESTE    = '#345cd3'
