@@ -67,10 +67,10 @@ def metricas_modelo(y_teste, y_previsao):
     mape = mean_absolute_percentage_error(y_teste, y_previsao)
     mase = mean_absolute_scaled_error(y_teste, y_previsao)
 
-    return {'Mean Absolute Error': mae.numpy(),
-            'Root Mean Squared Error': rmse.numpy(),
-            'Mean Absolute Percentage Error': mape.numpy(),
-            'Mean Absolute Scaled Error': mase.numpy()}
+    return {'Mean Absolute Error': mae,
+            'Root Mean Squared Error': rmse,
+            'Mean Absolute Percentage Error': mape,
+            'Mean Absolute Scaled Error': mase}
 
 def criar_janelas(dados, janela_tamanho, horizonte_tamanho):
 
