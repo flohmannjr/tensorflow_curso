@@ -89,7 +89,7 @@ def criar_janelas(dados, janela_tamanho, horizonte_tamanho, premios=[]):
     if len(premios) == 0:
         janelas = janelas_horizontes[:, :-horizonte_tamanho]
     else:
-        janelas = np.column_stack((janelas_horizontes[:, :-horizonte_tamanho], premios[indices[:, -2]]))
+        janelas = np.column_stack((janelas_horizontes[:, :-horizonte_tamanho], premios[indices[:, -(horizonte_tamanho + 1)]]))
 
     horizontes = janelas_horizontes[:, -horizonte_tamanho:]
 
