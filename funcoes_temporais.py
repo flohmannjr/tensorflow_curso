@@ -74,7 +74,7 @@ def metricas_modelo(y_teste, y_previsao):
             'Mean Absolute Percentage Error': mape,
             'Mean Absolute Scaled Error': mase}
 
-def criar_janelas(dados, janela_tamanho, horizonte_tamanho):
+def criar_janelas(dados, janela_tamanho, horizonte_tamanho, premios=[]):
 
     # Array 2D de 0 a janela_tamanho + horizonte_tamanho.
     janela_primaria = np.expand_dims(np.arange(janela_tamanho + horizonte_tamanho), axis=0)
@@ -85,8 +85,15 @@ def criar_janelas(dados, janela_tamanho, horizonte_tamanho):
     # Dados em formato de janelas com horizontes.
     janelas_horizontes = dados[indices]
 
-    # Retorna os dados em formato janelas, horizonte.
-    return janelas_horizontes[:, :-horizonte_tamanho], janelas_horizontes[:, -horizonte_tamanho:]
+    # Separa os dados em janelas, horizonte.
+    if len(premios) == 0:
+        janelas = janelas_horizontes[:, :-horizonte_tamanho]
+    else:
+        janelas = np.column_stack((janelas_horizontes[:, :-horizonte_tamanho], premios[indices[:, -2]]))
+
+    horizontes = janelas_horizontes[:, -horizonte_tamanho:]
+
+    return janelas, horizontes
 
 def separar_janelas_treino_teste(janelas, horizontes, tamanho_teste=0.2):
 
