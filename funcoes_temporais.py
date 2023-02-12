@@ -19,16 +19,26 @@ LINHA_ESPESSURA = 1
 def grafico_series(X_treino=[], y_treino=[],
                    X_teste=[], y_teste=[],
                    X_previsao=[], y_previsao=[],
+                   superior=[], inferior=[],
                    inicio=0, fim=None):
+
+    base_legenda = 1
 
     if len(X_treino) > 0:
         sns.lineplot(x=X_treino[inicio:fim], y=y_treino[inicio:fim], color=COR_TREINO, linewidth=LINHA_ESPESSURA, label='Treino')
+        base_legenda -= 0.06
 
     if len(X_teste) > 0:
         sns.lineplot(x=X_teste[inicio:fim], y=y_teste[inicio:fim], color=COR_TESTE, linewidth=LINHA_ESPESSURA, label='Teste')
+        base_legenda -= 0.06
 
     if len(X_previsao) > 0:
         sns.lineplot(x=X_previsao[inicio:fim], y=y_previsao[inicio:fim], color=COR_PREVISAO, linewidth=LINHA_ESPESSURA, label='Previsão')
+        base_legenda -= 0.06
+
+    if len(superior) > 0:
+        plt.fill_between(x=X_previsao[inicio:fim], y1=inferior[inicio:fim], y2=superior[inicio:fim], color=COR_PREVISAO, alpha=0.25, label='Intervalo')
+        base_legenda -= 0.06
 
     plt.title('Fechamentos')
     plt.xlabel('')
@@ -36,7 +46,7 @@ def grafico_series(X_treino=[], y_treino=[],
 
     plt.xticks(rotation=-45)
 
-    plt.legend(loc=(1.03, 0.88), frameon=True, facecolor='white')
+    plt.legend(loc=(1.03, base_legenda), frameon=True, facecolor='white')
 
     plt.show()
 
